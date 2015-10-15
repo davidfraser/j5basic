@@ -46,6 +46,12 @@ class Cleaner(clean.Cleaner):
             if node.tag == 'span' and not node.keys():
                 node.drop_tag()
 
+        # if there is only a single paragraph, and no line breaks, then don't save that for rendering
+        if len(divnode.xpath('//p')) == 1 and len(divnode.xpath('//br')) == 0 and not (divnode.text or divnode.tail):
+            node = divnode.getchildren()[0]
+            if node.tag == 'p' and not node.keys():
+                node.drop_tag()
+
         #Now unwrap the divnode (i.e. just serialize the children of our extra div node)
         cleaned = saxutils.escape(divnode.text) if divnode.text else ''
 
