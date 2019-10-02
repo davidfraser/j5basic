@@ -98,8 +98,8 @@ def get_all_distinct_mro_targets(obj, functionname):
         base_hook_fn = getattr(t, functionname, None)
         if base_hook_fn:
             t_f = six.get_unbound_function(base_hook_fn)
-            if t_f not in sources:
-                sources[t_f] = t
+            if t_f.__func__ not in sources:
+                sources[t_f.__func__] = t
                 sources[t] = (t_f, base_hook_fn)
                 targets.append(base_hook_fn)
                 for base in t.__mro__[1:]:
